@@ -1,6 +1,7 @@
 package hust.soict.dsai.test.cart;
 
 import hust.soict.dsai.aims.cart.Cart;
+import hust.soict.dsai.aims.exception.LimitExceededException;
 import hust.soict.dsai.aims.media.*;
 
 public class CartTest {
@@ -11,9 +12,13 @@ public class CartTest {
         DigitalVideoDisc dvd2 = new DigitalVideoDisc("Star Wars", "Science Fiction", "George Lucas", 87, 24.95f);
         DigitalVideoDisc dvd3 = new DigitalVideoDisc("Aladin", "Animation", 18.99f);
 
-        cart.addMedia(dvd1);
-        cart.addMedia(dvd2);
-        cart.addMedia(dvd3);
+        try {
+            cart.addMedia(dvd1);
+            cart.addMedia(dvd2);
+            cart.addMedia(dvd3);
+        } catch (LimitExceededException e) {
+            System.err.println(e.getMessage());
+        }
 
         // Test print
         cart.print();
@@ -34,7 +39,11 @@ public class CartTest {
 
         // Test add duplicate
         System.out.println("=== Add duplicate ===");
-        cart.addMedia(dvd1);
+        try {
+            cart.addMedia(dvd1);
+        } catch (LimitExceededException e) {
+            System.err.println(e.getMessage());
+        }
 
         // Test remove
         System.out.println("=== Remove Star Wars ===");
@@ -57,8 +66,12 @@ public class CartTest {
         cd.addTrack(new Track("Come Together", 4));
         cd.addTrack(new Track("Something", 3));
 
-        cart.addMedia(book);
-        cart.addMedia(cd);
+        try {
+            cart.addMedia(book);
+            cart.addMedia(cd);
+        } catch (LimitExceededException e) {
+            System.err.println(e.getMessage());
+        }
         cart.print();
     }
 }
