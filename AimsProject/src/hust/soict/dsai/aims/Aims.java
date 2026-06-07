@@ -1,6 +1,8 @@
 package hust.soict.dsai.aims;
 
 import hust.soict.dsai.aims.cart.Cart;
+import hust.soict.dsai.aims.exception.LimitExceededException;
+import hust.soict.dsai.aims.exception.PlayerException;
 import hust.soict.dsai.aims.media.*;
 import hust.soict.dsai.aims.store.Store;
 
@@ -12,7 +14,6 @@ public class Aims {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        // Add some sample media to store
         DigitalVideoDisc dvd1 = new DigitalVideoDisc("The Lion King", "Animation", "Roger Allers", 87, 19.95f);
         DigitalVideoDisc dvd2 = new DigitalVideoDisc("Star Wars", "Science Fiction", "George Lucas", 87, 24.95f);
         Book book1 = new Book("Clean Code", "Technology", 29.99f);
@@ -71,7 +72,16 @@ public class Aims {
                 System.out.print("Enter title to add to cart: ");
                 String t2 = scanner.nextLine();
                 for (Media m : store.getItemsInStore()) {
-                    if (m.isMatch(t2)) { cart.addMedia(m); return; }
+                    if (m.isMatch(t2)) {
+                        try {
+                            cart.addMedia(m);
+                        } catch (LimitExceededException e) {
+                            System.err.println(e.getMessage());
+                            System.out.println(e.toString());
+                            e.printStackTrace();
+                        }
+                        return;
+                    }
                 }
                 System.out.println("Not found.");
                 break;
@@ -79,7 +89,16 @@ public class Aims {
                 System.out.print("Enter title to play: ");
                 String t3 = scanner.nextLine();
                 for (Media m : store.getItemsInStore()) {
-                    if (m.isMatch(t3) && m instanceof Playable) { ((Playable) m).play(); return; }
+                    if (m.isMatch(t3) && m instanceof Playable) {
+                        try {
+                            ((Playable) m).play();
+                        } catch (PlayerException e) {
+                            System.err.println(e.getMessage());
+                            System.out.println(e.toString());
+                            e.printStackTrace();
+                        }
+                        return;
+                    }
                 }
                 System.out.println("Not found or not playable.");
                 break;
@@ -134,7 +153,16 @@ public class Aims {
                 System.out.print("Enter title to play: ");
                 String pt = scanner.nextLine();
                 for (Media m : cart.getItemsOrdered()) {
-                    if (m.isMatch(pt) && m instanceof Playable) { ((Playable) m).play(); return; }
+                    if (m.isMatch(pt) && m instanceof Playable) {
+                        try {
+                            ((Playable) m).play();
+                        } catch (PlayerException e) {
+                            System.err.println(e.getMessage());
+                            System.out.println(e.toString());
+                            e.printStackTrace();
+                        }
+                        return;
+                    }
                 }
                 System.out.println("Not found or not playable.");
                 break;

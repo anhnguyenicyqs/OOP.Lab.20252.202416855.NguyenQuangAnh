@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="480" prefWidth="640"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="hust.soict.dsai.javafx.PainterController">
+    <padding>
+        <Insets bottom="8" left="8" right="8" top="8"/>
+    </padding>
+    <left>
+        <VBox maxHeight="1.7976931348623157E308" spacing="8">
+            <BorderPane.margin>
+                <Insets right="8"/>
+            </BorderPane.margin>
+            <TitledPane collapsible="false" text="Tools">
+                <VBox spacing="5">
+                    <fx:define>
+                        <ToggleGroup fx:id="toolsGroup"/>
+                    </fx:define>
+                    <RadioButton fx:id="radioBtnPen" selected="true"
+                                 text="Pen" toggleGroup="$toolsGroup"/>
+                    <RadioButton fx:id="radioBtnEraser"
+                                 text="Eraser" toggleGroup="$toolsGroup"/>
+                </VBox>
+            </TitledPane>
+            <Button maxWidth="1.7976931348623157E308" onAction="#clearButtonPressed" text="Clear"/>
+        </VBox>
+    </left>
+    <center>
+        <Pane fx:id="drawingAreaPane"
+              onMouseDragged="#drawingAreaMouseDragged"
+              onMousePressed="#drawingAreaMouseDragged"
+              style="-fx-background-color: white;"/>
+    </center>
+</BorderPane>

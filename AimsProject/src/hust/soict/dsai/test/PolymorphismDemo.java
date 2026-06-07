@@ -1,5 +1,6 @@
 package hust.soict.dsai.test;
 
+import hust.soict.dsai.aims.exception.PlayerException;
 import hust.soict.dsai.aims.media.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,11 @@ public class PolymorphismDemo {
         System.out.println("\n=== Polymorphism with play() ===");
         for (Media m : mediae) {
             if (m instanceof Playable) {
-                ((Playable) m).play();
+                try {
+                    ((Playable) m).play();
+                } catch (PlayerException e) {
+                    System.err.println(e.getMessage());
+                }
                 System.out.println();
             }
         }

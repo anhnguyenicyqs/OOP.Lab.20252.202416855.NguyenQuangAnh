@@ -2,7 +2,7 @@ package hust.soict.dsai.aims.media;
 
 import java.util.Comparator;
 
-public abstract class Media {
+public abstract class Media implements Comparable<Media> {
     private static int nbMedias = 0;
     private int id;
     private String title;
@@ -38,9 +38,20 @@ public abstract class Media {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
+        if (o == null) return false;
         if (!(o instanceof Media)) return false;
         Media media = (Media) o;
-        return this.title != null && this.title.equals(media.title);
+        return this.title != null && this.title.equals(media.title)
+                && Float.compare(this.cost, media.cost) == 0;
+    }
+
+    @Override
+    public int compareTo(Media other) {
+        if (other == null) throw new NullPointerException("Cannot compare to null Media");
+        int cmp = this.title == null ? -1 : this.title.compareTo(
+                other.title == null ? "" : other.title);
+        if (cmp != 0) return cmp;
+        return Float.compare(this.cost, other.cost);
     }
 
     public boolean isMatch(String title) {
